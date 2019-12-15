@@ -19,6 +19,7 @@ class PlotEmbeddings:
         # If you wish to study only custom transcripts, uncomment below line
         # sentiment_transcripts = []
 
+        # Add the set of custom transcripts you wish to compare against
         custom_transcript = ['How is the economy doing in this country?',
                              'The current state of affairs is not doing good.',
                              'Life will get difficult when inflation kicks in.',
@@ -77,7 +78,7 @@ class PlotEmbeddings:
         out_v.close()
         out_m.close()
 
-    def plot_learned_embeddings(self, embeddings_file, word_index_file):
+    def plot_learned_embeddings(self, embeddings_file, word_index_file, generate_pca=True):
         vocab_embeddings = np.load(embeddings_file)
         with open(word_index_file, 'r') as fid:
             word_index = json.load(fid)
@@ -91,6 +92,7 @@ class PlotEmbeddings:
         for transcript, name in tqdm(zip(self._transcripts, self._meta_data)):
             word_embeddings = []
             words = transcript.split()
+            # Generate word embeddings for all the words
             for word in words:
                 word = word.lower()
                 if word in word_index:
@@ -102,6 +104,7 @@ class PlotEmbeddings:
                 else:
                     word_embeddings.append(0)
 
+            # Combine all word embeddings in a sample to sentence embeddings
             indices = tf.convert_to_tensor(np.arange(len(words)))
             indices = tf.stack((tf.zeros_like(indices), indices), axis=1)
             word_embeddings = tf.convert_to_tensor(word_embeddings)
@@ -109,7 +112,8 @@ class PlotEmbeddings:
             sentence_embedding = tf.nn.embedding_lookup_sparse(vocab_embeddings, word_embeddings_sparse, None,
                                                                combiner='sqrtn')[0]
 
-            sentence_embeddings.append(sentence_embedding)
+            if generate_pca:
+                sentence_embeddings.append(sentence_embedding)
 
             out_m.write(name + "\n")
             out_v.write('\t'.join([str(x) for x in sentence_embedding]) + '\n')
@@ -117,15 +121,15 @@ class PlotEmbeddings:
         out_v.close()
         out_m.close()
 
-        # Uncomment below lines if you wish to generate PCA components as well
-        # pca = PCA(n_components=3)
-        # pca_se = pca.fit_transform(sentence_embeddings)
-        # print('SE shape = ', pca_se.shape)
-        #
-        # out_v = io.open('vecs_pca_le.tsv', 'w', encoding='utf-8')
-        # for se in pca_se:
-        #     out_v.write('\t'.join([str(x) for x in se]) + '\n')
-        # out_v.close()
+        if generate_pca:
+            pca = PCA(n_components=3)
+            pca_se = pca.fit_transform(sentence_embeddings)
+            print('SE shape = ', pca_se.shape)
+
+            out_v = io.open('vecs_pca_le.tsv', 'w', encoding='utf-8')
+            for se in pca_se:
+                out_v.write('\t'.join([str(x) for x in se]) + '\n')
+            out_v.close()
 
 
 if __name__ == '__main__':
@@ -142,3 +146,4 @@ if __name__ == '__main__':
     p.plot_tf1_hub_embeddings('https://tfhub.dev/google/universal-sentence-encoder/2')
 
     # p.plot_learned_embeddings('vocabulary_weights.npy', 'word_index.json')
+    print('Your embeddings have been generated. \nGo to https://projector.tensorflow.org/ and plot the saved vector files.')

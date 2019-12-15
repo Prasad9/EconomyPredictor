@@ -4,3 +4,5 @@ PDFs/
 __pycache__
 *.npy
 *.json
+*.csv
+*.tsv

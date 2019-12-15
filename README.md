@@ -31,3 +31,18 @@ To create your own language model specialized in economics and financial text, c
 python GenerateWordEmbeddings.py
 ```
 
+### Visualize the sentence embeddings
+You can visualize the sentence embeddings generated either using the in-built TensorFlow Hub modules or using your custom language model. To generate TF Hub's embedding, make use of the functions of `plot_tf1_hub_embeddings` or `plot_tf2_hub_embeddings`. To convert the word embeddings generated through your language model into sentence embeddings, you will have to make use of `plot_learned_embeddings` function. Look into the [main function](./PlotEmbeddings.py) for more details. To run the code:
+
+```python
+python PlotEmbeddings.py
+```
+
+These functions will generate the vector files which can be visualized in TensorFlow's [embedding projector website](https://projector.tensorflow.org/).
+
+### Filter embeddings
+Based on the dataset you have generated, you may have to filter out certain samples which doesn't fit your financial analysis type of dataset. In other words, these may correspond to outliers when you are visualizing the sentence embeddings. To generate filtered embeddings, run the code of:
+
+```python
+python FilterEmbeddings.py
+```
