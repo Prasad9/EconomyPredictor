@@ -39,7 +39,7 @@ class GenerateWordEmbeddings:
             raw_text = self._read_pdf_files(pdf_folder)
             sentences = raw_text.split('.')
             sentences = [s for s in sentences if len(s) > min_sentence_length]
-            print('Sentences = ', len(sentences))
+            print('No. of sentences = ', len(sentences))
 
             self._generate_sentiments(sentences, sentiment_filepath)
 
@@ -109,10 +109,10 @@ class GenerateWordEmbeddings:
         sequences = tokenizer.texts_to_sequences(sentences)
         padded_seq = tf.keras.preprocessing.sequence.pad_sequences(sequences, padding='post')
 
-        print('Sentence[1] = ', sentences[1])
-        print('Padded seq[1] = ', padded_seq[1])
-        print('Padded shape = ', padded_seq.shape)
-        print('Labels shape = ', len(sentiments))
+        # print('Sentence[1] = ', sentences[1])
+        # print('Padded seq[1] = ', padded_seq[1])
+        # print('Padded shape = ', padded_seq.shape)
+        # print('Labels shape = ', len(sentiments))
         return padded_seq, sentiments
 
     def _create_model(self, embedding_dim):

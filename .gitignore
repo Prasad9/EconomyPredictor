@@ -3,4 +3,4 @@ PDFs/
 .idea
 __pycache__
 *.npy
-
+*.json
