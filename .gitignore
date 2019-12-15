@@ -1,0 +1,6 @@
+Data/
+PDFs/
+.idea
+__pycache__
+*.npy
+
