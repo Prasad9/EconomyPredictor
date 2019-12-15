@@ -51,9 +51,9 @@ class FilterEmbeddings:
 
 if __name__ == '__main__':
     params = {
-        'VECS_FILE': 'vecs_tf1.tsv',
-        'NAME_FILE': 'meta_tf1.tsv',
-        'EMBEDDING_FILE': 'custom_vecs_tf1.tsv'
+        'VECS_FILE': 'vecs_tf1.tsv',                     # Generic embeddings out of all your sentences generated from PDF files
+        'NAME_FILE': 'meta_tf1.tsv',                     # Meta file of your generic embeddings
+        'EMBEDDING_FILE': 'custom_vecs_tf1.tsv'          # Embeddings generated out of ideal sample statements
     }
 
     fe = FilterEmbeddings(params)
