@@ -143,7 +143,7 @@ if __name__ == '__main__':
         'SAVE_CUSTOM_SENTENCES': True                                      # Should the custom sample sentences be saved too
     }
     p = PlotEmbeddings(params)
-    p.plot_tf1_hub_embeddings('https://tfhub.dev/google/universal-sentence-encoder/2')
+    p.plot_tf2_hub_embeddings('https://tfhub.dev/google/universal-sentence-encoder/4')
 
     # p.plot_learned_embeddings('vocabulary_weights.npy', 'word_index.json')
     print('Your embeddings have been generated. \nGo to https://projector.tensorflow.org/ and plot the saved vector files.')
