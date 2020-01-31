@@ -1,3 +1,6 @@
+# Predict the future of economy using Machine Learning
+The detailed explanation about the approach used in building up this repository is showcased in my [Medium article](https://medium.com/ymedialabs-innovation/predicting-the-future-of-the-economy-with-machine-learning-81a0efc7a41e).
+
 ## Requirements
 Install all the requirements needed to run this repository through:
 ```bash
@@ -5,7 +8,7 @@ pip install -r requirements.txt
 ```
 
 ## Download data
-There are two ways to download the data. Along with data getting downloaded, sentiment score will be generated. Ensure that you look into [Sentiment Analysis](##sentiment-analysis) section to make necessary setup.
+There are two ways to download the data. Along with data getting downloaded, sentiment score will be generated. Ensure that you look into [Sentiment Analysis](#sentiment-analysis) section to make necessary setup.
 ### a) Twitter
 Provide the Twitter user handles you wish to download the tweets from. Look into the main function for more details [here](./DownloadTwitterData.py/#L100). Enter your personal Twitter credentials as well. After the configuration is done, run the code as:
 
