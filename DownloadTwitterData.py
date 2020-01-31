@@ -6,6 +6,9 @@ import shutil
 import os
 from datetime import datetime
 
+from GenerateSentiment import GenerateSentiment
+from Constants import *
+
 # Twitter API credentials
 # TODO: Enter your personal Twitter credentials
 CONSUMER_KEY = None
@@ -20,6 +23,7 @@ class DownloadTwitterData:
         self._twitter_data = params['TWITTER_DATA']
         self._download_folder = os.path.abspath(params['DOWNLOAD_FOLDER'])
         self._meta_file = os.path.join(self._download_folder, params['META_FILE'])
+        self._gs = GenerateSentiment()
 
         self._tweepy_api = self._authorize_twitter()
 
@@ -90,8 +94,9 @@ class DownloadTwitterData:
                 # write the csv
                 with open(save_file_path, 'w') as f:
                     writer = csv.writer(f)
-                    writer.writerow(['time', 'text'])
-                    writer.writerow(tweet_data)
+                    writer.writerow(['time', 'text', kDocSentimentScore])
+                    sentiment_score = self._gs.generate_sentiment(tweet_data[1])[kDocSentimentScore]
+                    writer.writerow(tweet_data + [sentiment_score])
 
                 with open(self._meta_file, 'a') as fid:
                     csv_fid = csv.writer(fid)

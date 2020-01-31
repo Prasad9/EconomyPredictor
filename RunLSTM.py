@@ -19,11 +19,11 @@ class RunLSTM:
         self._model = self._generate_network(units, input_shape)
 
     def _generate_network(self, units, input_shape):
-        inputs = tf.keras.layers.Input(input_shape)
+        inputs = tf.keras.layers.Input(batch_shape=(self._batch_size,)+input_shape)
         hidden = inputs
         for layer_no, unit in enumerate(units):
             return_sequences = not(layer_no == len(units) - 1)
-            hidden = tf.keras.layers.LSTM(unit, return_sequences=return_sequences)(hidden)
+            hidden = tf.keras.layers.LSTM(unit, return_sequences=return_sequences, stateful=True)(hidden)
 
         hidden = tf.keras.layers.Dense(8, activation='relu')(hidden)
         output = tf.keras.layers.Dense(1, activation='tanh')(hidden)

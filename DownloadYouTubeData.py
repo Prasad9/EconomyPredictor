@@ -5,6 +5,9 @@ import pandas as pd
 from datetime import datetime
 import csv
 
+from GenerateSentiment import GenerateSentiment
+from Constants import *
+
 class DownloadYouTubeData:
     def __init__(self, params):
         self._append_data = params['APPEND_DATA']
@@ -13,6 +16,7 @@ class DownloadYouTubeData:
         self._join_interval = params['JOIN_INTERVAL']
         self._min_text_length = params['MIN_TEXT_LENGTH']
         self._meta_file = os.path.join(self._download_folder, params['META_FILE'])
+        self._gs = GenerateSentiment()
 
     def _create_folder(self):
         folder_exists = os.path.exists(self._download_folder)
@@ -22,7 +26,7 @@ class DownloadYouTubeData:
 
             with open(self._meta_file, 'w') as fid:
                 csv_fid = csv.writer(fid)
-                csv_fid.writerow(['Speaker', 'Time', 'VideoId'])
+                csv_fid.writerow(['Speaker', 'Time', 'FileId'])
 
     def _process_data(self, transcript):
         transformed_arr = []
@@ -64,7 +68,8 @@ class DownloadYouTubeData:
                     continue
 
                 transcript, start_times = self._process_data(transcript)
-                df = pd.DataFrame(data={'time': start_times, 'text': transcript})
+                sentiments = self._generate_sentiments(transcript)
+                df = pd.DataFrame(data={'time': start_times, 'text': transcript, kDocSentimentScore: sentiments})
                 file_path = os.path.join(self._download_folder, video_id + '.csv')
                 df.to_csv(file_path, index=False)
 
@@ -83,6 +88,13 @@ class DownloadYouTubeData:
                     csv_fid.writerow([speaker, key, video_info_list[key]])
 
             print('Total transcripts created: {}, processed videos: {}'.format(total_transcripts, total_videos))
+
+    def _generate_sentiments(self, sentences):
+        sentiments = []
+        for sentence in sentences:
+            sentiment_dict = self._gs.generate_sentiment(sentence)
+            sentiments.append(sentiment_dict[kDocSentimentScore])
+        return sentiments
 
 
 if __name__ == '__main__':

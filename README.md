@@ -5,7 +5,7 @@ pip install -r requirements.txt
 ```
 
 ## Download data
-There are two ways to download the data.
+There are two ways to download the data. Along with data getting downloaded, sentiment score will be generated. Ensure that you look into [Sentiment Analysis](##sentiment-analysis) section to make necessary setup.
 ### a) Twitter
 Provide the Twitter user handles you wish to download the tweets from. Look into the main function for more details [here](./DownloadTwitterData.py/#L100). Enter your personal Twitter credentials as well. After the configuration is done, run the code as:
 
@@ -53,13 +53,20 @@ You can train the model in three different ways. Each of them you may have confi
 ```python
 python RunLSTM.py
 ```
+Here is the learning curve plot what I got during training.
+![LSTM Learning](https://user-images.githubusercontent.com/13696749/73459535-0ae61a00-439d-11ea-97eb-ca17f5b2b096.png "LSTM Learning")  
 
 ### b) ARIMA
 ```python
 python RunArima.py
 ```
+Here is the learning curve plot what I got during training.
+![ARIMA Learning](https://user-images.githubusercontent.com/13696749/73512679-859c4d00-4410-11ea-98c5-c4649a24a58a.png "ARIMA Learning")
+
 
 ### c) TensorFlow Probability
 ```python
 python RunSTS.py
 ```
+Here is the learning curve plot what I got during training.
+![TensorFlow Probability Learning](https://user-images.githubusercontent.com/13696749/73512720-a9f82980-4410-11ea-9e4e-dfc20d0dafdc.png "TensorFlow Probability Learning")

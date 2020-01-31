@@ -14,6 +14,7 @@ class GenerateData:
 
         sentiment_data, self._transcripts = self._generate_data(speaker, meta_file, data_folder)
         print('Total sentiments of {} is {}'.format(speaker, len(sentiment_data)))
+        assert len(sentiment_data) > 0, 'You have no data collected for {}'.format(speaker)
 
         if not is_zero_center:
             sentiment_data = [(s + 1) / 2.0 for s in sentiment_data]
@@ -24,12 +25,12 @@ class GenerateData:
     def _generate_data(self, speaker, meta_file, data_folder):
         meta_df = pd.read_csv(meta_file)
         speaker_data = meta_df[meta_df['Speaker'] == speaker]
-        video_ids = speaker_data['VideoId']
+        file_ids = speaker_data['FileId']
 
         score_series = []
         transcripts = []
-        for video_id in video_ids:
-            transcript_path = os.path.join(data_folder, video_id + '.csv')
+        for file_id in file_ids:
+            transcript_path = os.path.join(data_folder, file_id + '.csv')
             transcript_df = pd.read_csv(transcript_path)
             sentiment_data = transcript_df[kDocSentimentScore].tolist()
             score_series.extend(sentiment_data)
