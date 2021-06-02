@@ -91,7 +91,7 @@ testpath==0.4.2
 tornado==5.1.1
 tqdm==4.40.2
 tweepy==3.8.0
-urllib3==1.25.7
+urllib3==1.26.5
 wcwidth==0.1.7
 Werkzeug==0.16.0
 widgetsnbextension==3.4.2
